@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysSwipersMapper">
+    
+    <resultMap type="SysSwipers" id="SysSwipersResult">
+        <result property="id"    column="id"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="imgName"    column="img_name"    />
+        <result property="imgStatus"    column="img_status"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSysSwipersVo">
+        select id, img_url, img_name,img_status, create_date, del_flag from sys_swipers
+    </sql>
+
+    <select id="selectSysSwipersList" parameterType="SysSwipers" resultMap="SysSwipersResult">
+        <include refid="selectSysSwipersVo"/>
+        <where>  
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="imgName != null  and imgName != ''"> and img_name = #{imgName}</if>
+            <if test="imgStatus != null "> and img_status = #{imgStatus}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysSwipersById" parameterType="Long" resultMap="SysSwipersResult">
+        <include refid="selectSysSwipersVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysSwipers" parameterType="SysSwipers">
+        insert into sys_swipers
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="imgStatus != null">img_status,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="imgName != null">img_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="imgStatus != null">#{imgStatus},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="imgName != null">#{imgName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysSwipers" parameterType="SysSwipers">
+        update sys_swipers
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="imgStatus != null">img_status = #{imgStatus},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysSwipersById" parameterType="Long">
+        delete from sys_swipers where id = #{id}
+    </delete>
+
+    <delete id="deleteSysSwipersByIds" parameterType="String">
+        delete from sys_swipers where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

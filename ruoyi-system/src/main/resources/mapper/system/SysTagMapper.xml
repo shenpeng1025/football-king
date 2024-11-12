@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysTagMapper">
+    
+    <resultMap type="SysTag" id="SysTagResult">
+        <result property="id"    column="id"    />
+        <result property="tagName"    column="tag_name"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+    </resultMap>
+
+    <sql id="selectSysTagVo">
+        select id, tag_name, del_flag, create_date, update_date from sys_tag
+    </sql>
+
+    <select id="selectSysTagList" parameterType="SysTag" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+        <where>  
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTagById" parameterType="Long" resultMap="SysTagResult">
+        <include refid="selectSysTagVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysTag" parameterType="SysTag">
+        insert into sys_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="tagName != null">tag_name,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateDate != null">update_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="tagName != null">#{tagName},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTag" parameterType="SysTag">
+        update sys_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tagName != null">tag_name = #{tagName},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTagById" parameterType="Long">
+        delete from sys_tag where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTagByIds" parameterType="String">
+        delete from sys_tag where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

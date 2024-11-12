@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysArticleMapper">
+    
+    <resultMap type="SysArticle" id="SysArticleResult">
+        <result property="articleId"    column="article_id"    />
+        <result property="articleTitle"    column="article_title"    />
+        <result property="articleContent"    column="article_content"    />
+        <result property="articleAuthor"    column="article_author"    />
+        <result property="articleTagId"    column="article_tag_id"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectSysArticleVo">
+        select article_id, article_title, article_content, article_author, article_tag_id, create_date, update_date, del_flag from sys_article
+    </sql>
+
+    <select id="selectSysArticleList" parameterType="SysArticle" resultMap="SysArticleResult">
+        <include refid="selectSysArticleVo"/>
+        <where>  
+            <if test="articleTitle != null  and articleTitle != ''"> and article_title = #{articleTitle}</if>
+            <if test="articleContent != null  and articleContent != ''"> and article_content = #{articleContent}</if>
+            <if test="articleAuthor != null  and articleAuthor != ''"> and article_author = #{articleAuthor}</if>
+            <if test="articleTagId != null "> and article_tag_id = #{articleTagId}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="updateDate != null "> and update_date = #{updateDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysArticleByArticleId" parameterType="Long" resultMap="SysArticleResult">
+        <include refid="selectSysArticleVo"/>
+        where article_id = #{articleId}
+    </select>
+
+    <insert id="insertSysArticle" parameterType="SysArticle">
+        insert into sys_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">article_id,</if>
+            <if test="articleTitle != null">article_title,</if>
+            <if test="articleContent != null">article_content,</if>
+            <if test="articleAuthor != null">article_author,</if>
+            <if test="articleTagId != null">article_tag_id,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">#{articleId},</if>
+            <if test="articleTitle != null">#{articleTitle},</if>
+            <if test="articleContent != null">#{articleContent},</if>
+            <if test="articleAuthor != null">#{articleAuthor},</if>
+            <if test="articleTagId != null">#{articleTagId},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysArticle" parameterType="SysArticle">
+        update sys_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleTitle != null">article_title = #{articleTitle},</if>
+            <if test="articleContent != null">article_content = #{articleContent},</if>
+            <if test="articleAuthor != null">article_author = #{articleAuthor},</if>
+            <if test="articleTagId != null">article_tag_id = #{articleTagId},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where article_id = #{articleId}
+    </update>
+
+    <delete id="deleteSysArticleByArticleId" parameterType="Long">
+        delete from sys_article where article_id = #{articleId}
+    </delete>
+
+    <delete id="deleteSysArticleByArticleIds" parameterType="String">
+        delete from sys_article where article_id in 
+        <foreach item="articleId" collection="array" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </delete>
+</mapper>

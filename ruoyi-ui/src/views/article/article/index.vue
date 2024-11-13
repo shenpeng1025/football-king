@@ -73,7 +73,18 @@
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="文章标题" align="center" prop="articleTitle" />
-      <el-table-column label="文章内容" align="center" prop="articleContent" />
+      <!-- <el-table-column label="文章内容" align="center" prop="articleContent" /> -->
+      <el-table-column label="文章内容" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            icon="el-icon-view"
+            @click="handlePreview(scope.row)"
+            v-hasPermi="['article:article:preview']"
+          >预览</el-button>
+        </template>
+      </el-table-column>
       <el-table-column label="文章作者" align="center" prop="articleAuthor" />
       <el-table-column label="文章创建日期" align="center" prop="createDate" width="180">
         <template slot-scope="scope">
@@ -108,6 +119,16 @@
       @pagination="getList"
     />
 
+    <el-dialog :title="preview.title" :visible.sync="preview.open" width="800px" append-to-body class="scrollbar">
+      <el-form ref="preview" :model="preview" label-width="100px" size="mini">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="文章内容">{{ preview.data.articleContent }}</el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
+
     <!-- 添加或修改文章对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -133,7 +154,7 @@
 </template>
 
 <script>
-import { listArticle, getArticle, delArticle, addArticle, updateArticle } from "@/api/article/article";
+import { listArticle, getArticle, delArticle, addArticle, updateArticle,previewTable } from "@/api/article/article";
 
 export default {
   name: "Article",
@@ -172,6 +193,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
+      },
+      preview: {
+        open: false,
+        title: "文章内容预览",
+        data: {},
+        activeName : "文章内容预览",
       }
     };
   },
@@ -274,7 +301,29 @@ export default {
       this.download('article/article/export', {
         ...this.queryParams
       }, `article_${new Date().getTime()}.xlsx`)
-    }
-  }
+    },
+    /** 查看文章内容 */
+    handlePreview(row) {
+      previewTable(row.articleId).then(response => {
+        this.preview.data = response.data;
+        this.preview.open = true;
+        this.preview.activeName = response.data.articleTitle;
+        this.preview.title = response.data.articleTitle;
+        console.log(response.data.articleTitle);
+      });
+    },
+    /** 复制代码成功 */
+   clipboardSuccess() {
+      this.$modal.msgSuccess("复制成功");
+    },
+    /** 高亮显示 */
+    highlightedCode(code, key) {
+      const vmName = key.substring(key.lastIndexOf("/") + 1, key.indexOf(".vm"));
+      var language = vmName.substring(vmName.indexOf(".") + 1, vmName.length);
+      const result = hljs.highlight(language, code || "", true);
+      return result.value || '&nbsp;';
+    },
+  },
+   
 };
 </script>

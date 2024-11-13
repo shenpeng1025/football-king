@@ -42,3 +42,11 @@ export function delArticle(articleId) {
     method: 'delete'
   })
 }
+
+//预览文章内容
+export function previewTable(articleId) {
+  return request({
+    url: '/article/article/' + articleId,
+    method: 'get'
+  })
+}

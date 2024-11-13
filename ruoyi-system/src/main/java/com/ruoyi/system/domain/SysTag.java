@@ -2,6 +2,7 @@ package com.ruoyi.system.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,6 +14,11 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-11-12
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class SysTag extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -37,51 +43,7 @@ public class SysTag extends BaseEntity
     @Excel(name = "更新日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date updateDate;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
 
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setTagName(String tagName) 
-    {
-        this.tagName = tagName;
-    }
-
-    public String getTagName() 
-    {
-        return tagName;
-    }
-    public void setDelFlag(Integer delFlag) 
-    {
-        this.delFlag = delFlag;
-    }
-
-    public Integer getDelFlag() 
-    {
-        return delFlag;
-    }
-    public void setCreateDate(Date createDate) 
-    {
-        this.createDate = createDate;
-    }
-
-    public Date getCreateDate() 
-    {
-        return createDate;
-    }
-    public void setUpdateDate(Date updateDate) 
-    {
-        this.updateDate = updateDate;
-    }
-
-    public Date getUpdateDate() 
-    {
-        return updateDate;
-    }
 
     @Override
     public String toString() {

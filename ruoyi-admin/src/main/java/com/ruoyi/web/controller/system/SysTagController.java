@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -77,6 +78,8 @@ public class SysTagController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysTag sysTag)
     {
+        sysTag.setCreateDate(new Date());
+        sysTag.setDelFlag(0);
         return toAjax(sysTagService.insertSysTag(sysTag));
     }
 
@@ -88,6 +91,7 @@ public class SysTagController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysTag sysTag)
     {
+        sysTag.setUpdateDate(new Date());
         return toAjax(sysTagService.updateSysTag(sysTag));
     }
 

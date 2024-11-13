@@ -94,6 +94,7 @@ public class SysArticleController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysArticle sysArticle)
     {
+        sysArticle.setUpdateDate(new Date());
         return toAjax(sysArticleService.updateSysArticle(sysArticle));
     }
 
@@ -105,6 +106,7 @@ public class SysArticleController extends BaseController
 	@DeleteMapping("/{articleIds}")
     public AjaxResult remove(@PathVariable Long[] articleIds)
     {
+//        SysArticle sysArticle = sysArticleService.selectSysArticleByArticleId(articleIds[0]);
         return toAjax(sysArticleService.deleteSysArticleByArticleIds(articleIds));
     }
 

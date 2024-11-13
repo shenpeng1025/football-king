@@ -1,6 +1,11 @@
 package com.ruoyi.system.service.impl;
 
+import java.io.StringWriter;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.common.constant.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.SysArticleMapper;
@@ -89,5 +94,22 @@ public class SysArticleServiceImpl implements ISysArticleService
     public int deleteSysArticleByArticleId(Long articleId)
     {
         return sysArticleMapper.deleteSysArticleByArticleId(articleId);
+    }
+
+    /**
+     * 预览代码
+     *
+     * @param articleId 表编号
+     * @return 预览数据列表
+     */
+    @Override
+    public Map<String, String> previewCode(Long articleId)
+    {
+        Map<String, String> dataMap = new LinkedHashMap<>();
+        // 查询表信息
+        SysArticle sysArticle = sysArticleMapper.selectSysArticleByArticleId(articleId);
+        // 设置主子表信息
+        dataMap.put(articleId.toString(),sysArticle.getArticleContent());
+        return dataMap;
     }
 }

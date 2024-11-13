@@ -1,4 +1,4 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2024-11-12
  */
 @RestController
-@RequestMapping("/system/tag")
+@RequestMapping("/article/tag")
 public class SysTagController extends BaseController
 {
     @Autowired
@@ -37,7 +37,7 @@ public class SysTagController extends BaseController
     /**
      * 查询文章标签列表
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:list')")
+    @PreAuthorize("@ss.hasPermi('article:tag:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysTag sysTag)
     {
@@ -49,7 +49,7 @@ public class SysTagController extends BaseController
     /**
      * 导出文章标签列表
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:export')")
+    @PreAuthorize("@ss.hasPermi('article:tag:export')")
     @Log(title = "文章标签", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysTag sysTag)
@@ -62,7 +62,7 @@ public class SysTagController extends BaseController
     /**
      * 获取文章标签详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:query')")
+    @PreAuthorize("@ss.hasPermi('article:tag:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,7 +72,7 @@ public class SysTagController extends BaseController
     /**
      * 新增文章标签
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:add')")
+    @PreAuthorize("@ss.hasPermi('article:tag:add')")
     @Log(title = "文章标签", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysTag sysTag)
@@ -83,7 +83,7 @@ public class SysTagController extends BaseController
     /**
      * 修改文章标签
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:edit')")
+    @PreAuthorize("@ss.hasPermi('article:tag:edit')")
     @Log(title = "文章标签", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysTag sysTag)
@@ -94,7 +94,7 @@ public class SysTagController extends BaseController
     /**
      * 删除文章标签
      */
-    @PreAuthorize("@ss.hasPermi('system:tag:remove')")
+    @PreAuthorize("@ss.hasPermi('article:tag:remove')")
     @Log(title = "文章标签", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

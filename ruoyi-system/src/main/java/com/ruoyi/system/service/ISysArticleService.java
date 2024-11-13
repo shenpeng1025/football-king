@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.system.domain.SysArticle;
 
 /**
@@ -58,4 +60,13 @@ public interface ISysArticleService
      * @return 结果
      */
     public int deleteSysArticleByArticleId(Long articleId);
+
+
+    /**
+     * 预览代码
+     *
+     * @param articleId 表编号
+     * @return 预览数据列表
+     */
+    public Map<String, String> previewCode(Long articleId);
 }

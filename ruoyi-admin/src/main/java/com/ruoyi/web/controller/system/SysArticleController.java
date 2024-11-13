@@ -1,6 +1,9 @@
-package com.ruoyi.system.controller;
+package com.ruoyi.web.controller.system;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @date 2024-11-12
  */
 @RestController
-@RequestMapping("/system/article")
+@RequestMapping("/article/article")
 public class SysArticleController extends BaseController
 {
     @Autowired
@@ -37,7 +40,7 @@ public class SysArticleController extends BaseController
     /**
      * 查询文章列表
      */
-    @PreAuthorize("@ss.hasPermi('system:article:list')")
+    @PreAuthorize("@ss.hasPermi('article:article:list')")
     @GetMapping("/list")
     public TableDataInfo list(SysArticle sysArticle)
     {
@@ -49,7 +52,7 @@ public class SysArticleController extends BaseController
     /**
      * 导出文章列表
      */
-    @PreAuthorize("@ss.hasPermi('system:article:export')")
+    @PreAuthorize("@ss.hasPermi('article:article:export')")
     @Log(title = "文章", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysArticle sysArticle)
@@ -62,7 +65,7 @@ public class SysArticleController extends BaseController
     /**
      * 获取文章详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:article:query')")
+    @PreAuthorize("@ss.hasPermi('article:article:query')")
     @GetMapping(value = "/{articleId}")
     public AjaxResult getInfo(@PathVariable("articleId") Long articleId)
     {
@@ -72,18 +75,21 @@ public class SysArticleController extends BaseController
     /**
      * 新增文章
      */
-    @PreAuthorize("@ss.hasPermi('system:article:add')")
+    @PreAuthorize("@ss.hasPermi('article:article:add')")
     @Log(title = "文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysArticle sysArticle)
     {
+        sysArticle.setDelFlag(0);
+        sysArticle.setCreateDate(new Date());
+
         return toAjax(sysArticleService.insertSysArticle(sysArticle));
     }
 
     /**
      * 修改文章
      */
-    @PreAuthorize("@ss.hasPermi('system:article:edit')")
+    @PreAuthorize("@ss.hasPermi('article:article:edit')")
     @Log(title = "文章", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysArticle sysArticle)
@@ -94,11 +100,22 @@ public class SysArticleController extends BaseController
     /**
      * 删除文章
      */
-    @PreAuthorize("@ss.hasPermi('system:article:remove')")
+    @PreAuthorize("@ss.hasPermi('article:article:remove')")
     @Log(title = "文章", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{articleIds}")
     public AjaxResult remove(@PathVariable Long[] articleIds)
     {
         return toAjax(sysArticleService.deleteSysArticleByArticleIds(articleIds));
+    }
+
+    /**
+     * 预览文章
+     */
+    @PreAuthorize("@ss.hasPermi('article:article:preview')")
+    @GetMapping("/article/{articleId}")
+    public AjaxResult preview(@PathVariable("articleId") Long articleId) throws IOException
+    {
+        Map<String, String> dataMap = sysArticleService.previewCode(articleId);
+        return success(dataMap);
     }
 }

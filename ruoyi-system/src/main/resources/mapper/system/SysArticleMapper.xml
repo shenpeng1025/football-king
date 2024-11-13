@@ -13,10 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createDate"    column="create_date"    />
         <result property="updateDate"    column="update_date"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="viewCount"    column="view_count"    />
     </resultMap>
 
     <sql id="selectSysArticleVo">
-        select article_id, article_title, article_content, article_author, article_tag_id, create_date, update_date, del_flag from sys_article
+        select article_id, article_title, article_content, article_author, article_tag_id, create_date, update_date, del_flag,view_count from sys_article
     </sql>
 
     <select id="selectSysArticleList" parameterType="SysArticle" resultMap="SysArticleResult">
@@ -28,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="articleTagId != null "> and article_tag_id = #{articleTagId}</if>
             <if test="createDate != null "> and create_date = #{createDate}</if>
             <if test="updateDate != null "> and update_date = #{updateDate}</if>
+            <if test="viewCount != null "> and view_count = #{viewCount}</if>
         </where>
     </select>
     
@@ -47,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createDate != null">create_date,</if>
             <if test="updateDate != null">update_date,</if>
             <if test="delFlag != null">del_flag,</if>
+            <if test="viewCount != null">view_count,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="articleId != null">#{articleId},</if>
@@ -57,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createDate != null">#{createDate},</if>
             <if test="updateDate != null">#{updateDate},</if>
             <if test="delFlag != null">#{delFlag},</if>
+            <if test="viewCount != null">#{viewCount},</if>
          </trim>
     </insert>
 

@@ -2,6 +2,7 @@ package com.ruoyi.system.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,6 +14,11 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2024-11-12
  */
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysArticle extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -49,78 +55,10 @@ public class SysArticle extends BaseEntity
     /** 文章删除标志(0:未删除,1:逻辑删除) */
     private Integer delFlag;
 
-    public void setArticleId(Long articleId) 
-    {
-        this.articleId = articleId;
-    }
+    /**  文章浏览量*/
+    @Excel(name = "文章浏览量")
+    private Long viewCount;
 
-    public Long getArticleId() 
-    {
-        return articleId;
-    }
-    public void setArticleTitle(String articleTitle) 
-    {
-        this.articleTitle = articleTitle;
-    }
-
-    public String getArticleTitle() 
-    {
-        return articleTitle;
-    }
-    public void setArticleContent(String articleContent) 
-    {
-        this.articleContent = articleContent;
-    }
-
-    public String getArticleContent() 
-    {
-        return articleContent;
-    }
-    public void setArticleAuthor(String articleAuthor) 
-    {
-        this.articleAuthor = articleAuthor;
-    }
-
-    public String getArticleAuthor() 
-    {
-        return articleAuthor;
-    }
-    public void setArticleTagId(Long articleTagId) 
-    {
-        this.articleTagId = articleTagId;
-    }
-
-    public Long getArticleTagId() 
-    {
-        return articleTagId;
-    }
-    public void setCreateDate(Date createDate) 
-    {
-        this.createDate = createDate;
-    }
-
-    public Date getCreateDate() 
-    {
-        return createDate;
-    }
-    public void setUpdateDate(Date updateDate) 
-    {
-        this.updateDate = updateDate;
-    }
-
-    public Date getUpdateDate() 
-    {
-        return updateDate;
-    }
-    public void setDelFlag(Integer delFlag) 
-    {
-        this.delFlag = delFlag;
-    }
-
-    public Integer getDelFlag() 
-    {
-        return delFlag;
-    }
 
     @Override
     public String toString() {

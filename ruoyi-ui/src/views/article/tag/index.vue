@@ -17,14 +17,6 @@
           placeholder="请选择标签创建日期">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="更新日期" prop="updateDate">
-        <el-date-picker clearable
-          v-model="queryParams.updateDate"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择更新日期">
-        </el-date-picker>
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -79,16 +71,10 @@
 
     <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="文章标签id" align="center" prop="id" />
       <el-table-column label="标签名称" align="center" prop="tagName" />
       <el-table-column label="标签创建日期" align="center" prop="createDate" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新日期" align="center" prop="updateDate" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updateDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -124,25 +110,6 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="标签名称" prop="tagName">
           <el-input v-model="form.tagName" placeholder="请输入标签名称" />
-        </el-form-item>
-        <el-form-item label="删除标志(0:未删除 1:删除) " prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志(0:未删除 1:删除) " />
-        </el-form-item>
-        <el-form-item label="标签创建日期" prop="createDate">
-          <el-date-picker clearable
-            v-model="form.createDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择标签创建日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="更新日期" prop="updateDate">
-          <el-date-picker clearable
-            v-model="form.updateDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择更新日期">
-          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

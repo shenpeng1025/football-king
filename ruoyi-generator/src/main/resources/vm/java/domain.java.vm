@@ -23,6 +23,11 @@ import com.ruoyi.common.core.domain.TreeEntity;
 #elseif($table.tree)
 #set($Entity="TreeEntity")
 #end
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ${ClassName} extends ${Entity}
 {
     private static final long serialVersionUID = 1L;
@@ -55,7 +60,7 @@ public class ${ClassName} extends ${Entity}
     private List<${subClassName}> ${subclassName}List;
 
 #end
-#foreach ($column in $columns)
+#*#foreach ($column in $columns)
 #if(!$table.isSuperColumn($column.javaField))
 #if($column.javaField.length() > 2 && $column.javaField.substring(1,2).matches("[A-Z]"))
 #set($AttrName=$column.javaField)
@@ -101,5 +106,5 @@ public class ${ClassName} extends ${Entity}
             .append("${subclassName}List", get${subClassName}List())
 #end
             .toString();
-    }
+    }*#
 }
